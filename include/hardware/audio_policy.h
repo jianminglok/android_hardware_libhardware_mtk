@@ -251,6 +251,10 @@ struct audio_policy {
     /* check if offload is possible for given sample rate, bitrate, duration, ... */
     bool (*is_offload_supported)(const struct audio_policy *pol,
                                 const audio_offload_info_t *info);
+
+    #ifndef ANDROID_DEFAULT_CODE
+    int (*set_policy_parameters)(struct audio_policy *pol,int par1, int par2 ,int par3,int par4);
+    #endif
 };
 
 /* audio hw module handle used by load_hw_module(), open_output_on_module()
