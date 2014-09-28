@@ -743,6 +743,33 @@ struct audio_hw_device {
     int (*listen_set_parameters)(struct audio_hw_device *dev,
                                  const char *kv_pairs);
 #endif
+
+    /**  add by chipeng to fit hardware extension   **/
+    int (*SetEMParameter)(struct audio_hw_device *dev,void *ptr , int len);
+    int (*GetEMParameter)(struct audio_hw_device *dev,void *ptr , int len);
+    int (*SetAudioCommand)(struct audio_hw_device *dev,int par1 , int par2);
+    int (*GetAudioCommand)(struct audio_hw_device *dev,int par1);
+    int (*SetAudioData)(struct audio_hw_device *dev,int par1,size_t len,void *ptr);
+    int (*GetAudioData)(struct audio_hw_device *dev,int par1,size_t len,void *ptr);
+    int (*SetACFPreviewParameter)(struct audio_hw_device *dev,void *ptr , int len);
+    int (*SetHCFPreviewParameter)(struct audio_hw_device *dev,void *ptr , int len);
+
+    int (*xWayPlay_Start)(struct audio_hw_device *dev,int sample_rate);
+    int (*xWayPlay_Stop)(struct audio_hw_device *dev);
+    int (*xWayPlay_Write)(struct audio_hw_device *dev,void* buffer ,int size_bytes);
+    int (*xWayPlay_GetFreeBufferCount)(struct audio_hw_device *dev);
+    int (*xWayRec_Start)(struct audio_hw_device *dev,int smple_rate);
+    int (*xWayRec_Stop)(struct audio_hw_device *dev);
+    int (*xWayRec_Read)(struct audio_hw_device *dev,void* buffer , int size_bytes);
+    //added by wendy
+    int (*ReadRefFromRing)(struct audio_hw_device* dev, void*buf, uint32_t datasz, void* DLtime);
+    int (*GetVoiceUnlockULTime)(struct audio_hw_device* dev, void* ULtime);
+    int (*SetVoiceUnlockSRC)(struct audio_hw_device* dev, uint outSR, uint outChannel);
+    bool (*startVoiceUnlockDL)(struct audio_hw_device* dev);
+    bool (*stopVoiceUnlockDL)(struct audio_hw_device* dev);
+    void (*freeVoiceUnlockDLInstance)(struct audio_hw_device* dev);
+    bool (*getVoiceUnlockDLInstance)(struct audio_hw_device* dev);
+    int (* GetVoiceUnlockDLLatency)(struct audio_hw_device* dev);
 };
 typedef struct audio_hw_device audio_hw_device_t;
 
