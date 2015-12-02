@@ -47,6 +47,7 @@ typedef enum {
     POWER_HINT_VIDEO_ENCODE = 0x00000003,
     POWER_HINT_VIDEO_DECODE = 0x00000004,
     POWER_HINT_LOW_POWER = 0x00000005,
+    POWER_HINT_CAM_PREVIEW = 0x00000006,
 
     POWER_HINT_CPU_BOOST    = 0x00000010,
     POWER_HINT_LAUNCH_BOOST = 0x00000011,
@@ -56,7 +57,8 @@ typedef enum {
 } power_hint_t;
 
 typedef enum {
-    POWER_FEATURE_DOUBLE_TAP_TO_WAKE = 0x00000001
+    POWER_FEATURE_DOUBLE_TAP_TO_WAKE = 0x00000001,
+    POWER_FEATURE_SUPPORTED_PROFILES = 0x00001000
 } feature_t;
 
 /**
@@ -122,7 +124,8 @@ typedef struct power_module {
      *     User is interacting with the device, for example, touchscreen
      *     events are incoming.  CPU and GPU load may be expected soon,
      *     and it may be appropriate to raise speeds of CPU, memory bus,
-     *     etc.  The data parameter is unused.
+     *     etc.  The data parameter is the estimated length of the interaction
+     *     in milliseconds, or 0 if unknown.
      *
      * POWER_HINT_LOW_POWER
      *
@@ -158,6 +161,12 @@ typedef struct power_module {
      *
      */
     void (*setFeature)(struct power_module *module, feature_t feature, int state);
+
+    /*
+     * (*getFeature) is called to get the current value of a particular
+     * feature or capability from the hardware or PowerHAL
+     */
+    int (*getFeature)(struct power_module *module, feature_t feature);
 
 } power_module_t;
 
